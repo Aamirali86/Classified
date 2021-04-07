@@ -10,20 +10,20 @@ import HelpKit
 
 class ClassfiedListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
-    
-    // MARK:- Init
+
+    // MARK: - Init
     init?(coder: NSCoder, viewModel: ClassfiedListViewModelType) {
         self.viewModel = viewModel
         super.init(coder: coder)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK:- Properties
+
+    // MARK: - Properties
     var viewModel: ClassfiedListViewModelType
-    
+
     lazy var loader: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -31,15 +31,15 @@ class ClassfiedListViewController: UIViewController {
         indicator.color = .gray
         return indicator
     }()
-    
-    //MARK:- Override
+
+    // MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addLoader()
         setupTableView()
         fetchData()
-        
+
         viewModel.output = { [weak self] output in
             DispatchQueue.main.async {
                 switch output {
@@ -53,22 +53,22 @@ class ClassfiedListViewController: UIViewController {
                 }
             }
         }
-        
+
     }
-    
-    //MARK:- Private functions
+
+    // MARK: - Private functions
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.registerCell(ClassifiedCell.self)
     }
-    
+
     private func fetchData() {
         showLoader()
         viewModel.fetchClassifiedAds()
     }
-    
+
     private func addLoader() {
         view.addSubview(loader)
         NSLayoutConstraint.activate([
@@ -76,7 +76,7 @@ class ClassfiedListViewController: UIViewController {
             loader.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-    
+
     private func showLoader() {
         loader.startAnimating()
     }
@@ -86,20 +86,20 @@ class ClassfiedListViewController: UIViewController {
     }
 }
 
-//MARK:- TableView Delegates
+// MARK: - TableView Delegates
 extension ClassfiedListViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.numberOfItems
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         10
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView()
         header.backgroundColor = .clear
@@ -113,17 +113,17 @@ extension ClassfiedListViewController: UITableViewDelegate, UITableViewDataSourc
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? ClassifiedCell,
             let item = viewModel.item(at: indexPath.section),
             let url = URL(string: item.image_urls.first!) else { return }
 
-        viewModel.downloadImage(with: url) { (data, error) in
+        viewModel.downloadImage(with: url) { (data, _) in
             guard let data = data as Data? else { return }
             cell.setImage(with: data)
         }
@@ -134,5 +134,5 @@ extension ClassfiedListViewController: UITableViewDelegate, UITableViewDataSourc
             let url = URL(string: item.image_urls.first!) else { return }
         viewModel.pauseImageDownload(with: url)
     }
-    
+
 }

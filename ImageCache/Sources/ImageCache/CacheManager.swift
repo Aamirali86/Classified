@@ -1,13 +1,12 @@
-
 import Foundation
 
 public struct CacheManager {
     public static let shared = CacheManager()
     private let queue = DispatchQueue(label: "dictionary", attributes: .concurrent)
-    private var cached = [String : Data]()
+    private var cached = [String: Data]()
 
     private init() {}
-    
+
     public mutating func set(key: String, item: Data) {
         var cachedData = cached[key]
         if cachedData == nil {
@@ -17,7 +16,7 @@ public struct CacheManager {
             }
         }
     }
-    
+
     public func getItem(url: String) -> Data? {
         var data: Data?
         queue.sync {
@@ -25,7 +24,7 @@ public struct CacheManager {
         }
         return data
     }
-    
+
     public mutating func clearAllCache() {
         cached.removeAll()
     }

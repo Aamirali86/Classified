@@ -14,10 +14,10 @@ public extension MKMapView {
     func getCurrentVisibleEdgeCoordinates() -> EdgesCoordinates {
         let northEastPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.origin.y)
         let southWestPoint = CGPoint(x: self.bounds.minX, y: self.bounds.maxY)
-        
+
         let northEastCoord = self.convert(northEastPoint, toCoordinateFrom: self)
         let southWestCoord = self.convert(southWestPoint, toCoordinateFrom: self)
-        
+
         return (northEast: northEastCoord, southWest: southWestCoord)
     }
 }

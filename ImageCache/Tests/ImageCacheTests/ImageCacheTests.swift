@@ -10,6 +10,6 @@ final class ImageCacheTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }

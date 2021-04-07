@@ -13,7 +13,7 @@ typealias ClassifiedListViewModelOutput = ((ClassifiedListViewModel.Output) -> V
 protocol ClassfiedListViewModelType {
     var output: ClassifiedListViewModelOutput? { get set }
     var numberOfItems: Int { get }
-    
+
     func fetchClassifiedAds()
     func item(at index: Int) -> Classified?
     func pauseImageDownload(with url: URL)
@@ -25,20 +25,20 @@ final class ClassifiedListViewModel: ClassfiedListViewModelType {
     var output: ClassifiedListViewModelOutput?
     private let service: ClassifiedServiceType
     private let imageDownloadService: ImageDownloadServiceType
-    
-    //MARK: Init
+
+    // MARK: Init
     init(service: ClassifiedServiceType, imageDownloadService: ImageDownloadServiceType) {
         self.service = service
         self.imageDownloadService = imageDownloadService
     }
 
     var numberOfItems: Int { ads.count }
-    
+
     func item(at index: Int) -> Classified? {
         guard index > 0 && index < numberOfItems else { return nil }
         return ads[index]
     }
-    
+
     func fetchClassifiedAds() {
         service.fetchClassifiedAds { [weak self] result in
             switch result {
@@ -50,16 +50,16 @@ final class ClassifiedListViewModel: ClassfiedListViewModelType {
             }
         }
     }
-    
+
     func downloadImage(with url: URL, handler: @escaping ImageDownloadHandler) {
         imageDownloadService.requestImageDownload(url, handler: handler)
     }
-    
+
     func pauseImageDownload(with url: URL) {
         imageDownloadService.pauseImageDownloadTask(url)
     }
-    
-    //For all of your viewBindings
+
+    // For all of your viewBindings
     enum Output {
         case adsFetchSuccess(ads: ClassifiedList)
         case adsFetchFailure(error: RequestError)

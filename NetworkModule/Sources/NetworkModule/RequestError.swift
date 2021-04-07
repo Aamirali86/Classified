@@ -48,7 +48,7 @@ public enum RequestError: Error {
             .secureConnectionFailed,
             .networkConnectionLost,
             .dnsLookupFailed,
-            .internationalRoamingOff,
+            .internationalRoamingOff
         ]
 
     /// Request could not be fulfilled because token has expired

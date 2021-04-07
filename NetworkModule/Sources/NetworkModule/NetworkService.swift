@@ -22,7 +22,7 @@ public class NetworkService {
 }
 
 extension NetworkService: NetworkServiceType {
-    
+
     // MARK: - Helpers
     private func buildRequest<R: RequestBuilder>(resource: R) throws -> URLRequest {
         var headers: [String: Any] = [:]
@@ -34,7 +34,7 @@ extension NetworkService: NetworkServiceType {
 
         return try resource.buildURLRequest(with: headers.mapValues { "\($0)" })
     }
-    
+
     public func requset(_ url: URL, completion: @escaping (Result<Data, RequestError>) -> Void) {
         network.request(url) { result in
             switch result {
@@ -44,14 +44,14 @@ extension NetworkService: NetworkServiceType {
                     return
                 }
                 completion(.success(data))
-                
+
             case .failure(let error):
                 let actualError = RequestError(error: error)
                 completion(.failure(actualError))
             }
         }
     }
-    
+
     public func request<R: RequestBuilder>(_ resource: R, completion: @escaping (Result<R.Response, RequestError>) -> Void) {
         let builtRequest: URLRequest
         do {

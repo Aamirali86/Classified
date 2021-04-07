@@ -10,6 +10,6 @@ final class NetworkModuleTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }

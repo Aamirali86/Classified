@@ -19,11 +19,11 @@ protocol ClassifiedServiceType {
 
 final class ClassifiedService: ClassifiedServiceType {
     private let network: ClassifiedAPI
-    
+
     init(network: ClassifiedAPI) {
         self.network = network
     }
-    
+
     func fetchClassifiedAds(completion: @escaping (Result<ClassifiedList, RequestError>) -> Void) {
         network.requestClassifiedAds(completion: completion)
     }

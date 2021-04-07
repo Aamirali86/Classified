@@ -39,7 +39,6 @@ public protocol NetworkType {
                  completion: @escaping (Result<(HTTPURLResponse?, Data?), Error>) -> Void)
 }
 
-
 extension URLSession: NetworkType {
     public func request(_ url: URL, completion: @escaping (Result<(HTTPURLResponse?, Data?), Error>) -> Void) {
         let task = dataTask(with: url) { data, response, error in
@@ -51,7 +50,7 @@ extension URLSession: NetworkType {
         }
         task.resume()
     }
-    
+
     public func request(_ request: URLRequest,
                         completion: @escaping (Result<(HTTPURLResponse?, Data?), Error>) -> Void) {
         let task = dataTask(with: request) { data, response, error in

@@ -20,25 +20,25 @@ final class ClassifiedCell: UITableViewCell {
         contentView.layer.cornerRadius = 20
         contentView.layer.masksToBounds = true
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
     }
-    
+
     func setupView(with ad: Classified) {
         adImage.image = UIImage(named: "placeholder")
         price.text = ad.price
         name.text = ad.name
         dateAdded.text = ad.created_at
     }
-    
+
     func setImage(with data: Data) {
         DispatchQueue.main.async {
             self.adImage.image = UIImage(data: data)
         }
     }
-    
+
 }
 
 extension ClassifiedCell: Instantiatable {}
