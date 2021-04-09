@@ -27,7 +27,6 @@ protocol ImageDownloadServiceType {
 }
 
 class ImageDownloadService: ImageDownloadServiceType {
-    private var completionHandler: ImageDownloadHandler?
     private var network: ImageDownloadAPI
     private var imageCache: CacheManager
 
@@ -44,11 +43,9 @@ class ImageDownloadService: ImageDownloadServiceType {
     }
     
     func requestImageDownload(_ url: URL, _ index: Int, handler: @escaping ImageDownloadHandler) {
-        completionHandler = handler
-        
         if let cachedImage = imageCache.getItem(url: url.absoluteString) {
             /* check for the cached image for url, if YES then return the cached image */
-            completionHandler?(cachedImage, index, nil)
+            handler(cachedImage, index, nil)
         } else {
              /* check if there is a download task that is currently downloading the same image. */
             if let operations = (imageDownloadQueue.operations as? [IDOperation]),
@@ -66,7 +63,7 @@ class ImageDownloadService: ImageDownloadServiceType {
                     if let data = data {
                         self?.imageCache.set(key: url.absoluteString, item: data)
                     }
-                    self?.completionHandler?(data, index, error)
+                    handler(data, index, error)
                 }
                 imageDownloadQueue.addOperation(operation)
             }
