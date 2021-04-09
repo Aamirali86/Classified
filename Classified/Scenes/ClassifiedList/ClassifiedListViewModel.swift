@@ -12,6 +12,7 @@ typealias ClassifiedListViewModelOutput = ((ClassifiedListViewModel.Output) -> V
 
 protocol ClassfiedListViewModelType {
     var output: ClassifiedListViewModelOutput? { get set }
+    var viewModels: [ClassifiedCellViewModelType] { get set }
     var numberOfItems: Int { get }
     
     func fetchClassifiedAds()
@@ -26,7 +27,7 @@ final class ClassifiedListViewModel: ClassfiedListViewModelType {
     
     var output: ClassifiedListViewModelOutput?
     var delegate: NavigationDelegate?
-    private var viewModels: [ClassifiedCellViewModelType] = []
+    var viewModels: [ClassifiedCellViewModelType] = []
     private let service: ClassifiedServiceType
     private let imageDownloadService: ImageDownloadServiceType
     
